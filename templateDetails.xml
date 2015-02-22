@@ -17,6 +17,8 @@
 	</files>
 	<positions>
 		<position>menu</position>
+		<position>top</position>
+		<position>article</position>
 		<position>languages</position>
 		<position>breadcrumbs</position>
 		<position>bottom</position>
