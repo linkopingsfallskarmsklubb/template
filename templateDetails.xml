@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="template">
+	<name>Linköpings Fallskärmsklubb</name>
+	<creationDate>2015-02-12</creationDate>
+	<author>Linköpings Fallskärmsklubb</author>
+	<authorEmail>info@linkopingsfallskarmsklubb.se</authorEmail>
+	<authorUrl>http://linkopingsfallskarmsklubb.se</authorUrl>
+	<copyright>Linköpings Fallskärmsklubb</copyright>
+	<license>Creative Commons</license>
+	<version>1.0.0</version>
+	<description>Template for Linköpings Fallskärmsklubb</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<folder>images</folder>
+		<folder>css</folder>
+	</files>
+	<positions>
+		<position>menu</position>
+		<position>languages</position>
+		<position>breadcrumbs</position>
+		<position>bottom</position>
+	</positions>
+</extension>
