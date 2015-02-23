@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
   <jdoc:include type="head" />
+  <link rel="shortcut icon" href="/templates/<?php echo $this->template ?>/favicon.ico" />
   <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
 </head>
 <body>
@@ -29,22 +30,23 @@
     <jdoc:include type="modules" name="top" />
     <div id="content">
       <jdoc:include type="message" />
-      <div id="articleimg">
         <?php
 // Show all images matching images/pages/$alias/*.jpg
 $alias = JFactory::getApplication()->getMenu()->getActive()->alias;
 $prefix = '/images/pages/' . $alias . '/';
-$localdir = dirname($this->_file) . $prefix;
-foreach (scandir($localdir) as $file) {
-  $localpath = $localdir . $file;
-  if (is_dir($localpath) || pathinfo($file, PATHINFO_EXTENSION) != 'jpg')
-    continue;
-  echo '<img src="';
-  echo $this->baseurl . '/templates/' . $this->template . $prefix . $file;
-  echo '" />';
+$localdir = JPATH_ROOT . $prefix;
+$scan = scandir($localdir);
+if ($scan !== false) {
+  echo '<div id="articleimg">';
+  foreach (scandir($localdir) as $file) {
+    $localpath = $localdir . $file;
+    if (is_dir($localpath) || pathinfo($file, PATHINFO_EXTENSION) != 'jpg')
+      continue;
+    echo '<img src="'. $prefix . $file . '" />';
+  }
+  echo '</div>';
 }
-		?>
-      </div>
+	  ?>
       <jdoc:include type="component" />
     </div>
     <jdoc:include type="modules" name="bottom" />

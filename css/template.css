@@ -14,6 +14,7 @@ html {
   background-size: cover;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 }
 #lfk-page {
   margin-top: -1em;
@@ -69,10 +70,14 @@ html {
 #menu-top .menu > li > a {
 	display: block;
 	padding: 0.5em;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
 }
 #menu-sub .menu > li > a {
 	display: block;
 	padding: 0.2em;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
 }
 .menu > li > a:hover,
 .menu > .active > a,
