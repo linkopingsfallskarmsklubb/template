@@ -1,3 +1,6 @@
+html {
+  overflow-y: scroll;
+}
 #lfk-languages {
   position: absolute;
   right: 1em;
@@ -24,6 +27,9 @@
   height: auto;
   min-height: 20em;
 }
+#lfk-page #menu-sub {
+  padding-bottom: 1.0em;
+}
 #lfk-footer {
   margin-left: auto;
   margin-right: auto;
@@ -36,6 +42,50 @@
 #articleimg {
   float: right;
   padding: 1em;
+}
+#articleimg img {
+  display: block;
+  padding-bottom: 1em;
+}
+.menu {
+	margin-left: 0;
+	margin-bottom: 5px;
+	list-style: none;
+	display: table;
+	width: 100%;
+}
+.menu > li {
+	display: table-cell;
+	*display: inline;
+	*zoom: 1;
+	text-align: center;
+}
+#menu-top .menu > li {
+	font-size: x-large;
+}
+#menu-sub .menu > li {
+	font-size: large;
+}
+#menu-top .menu > li > a {
+	display: block;
+	padding: 0.5em;
+}
+#menu-sub .menu > li > a {
+	display: block;
+	padding: 0.2em;
+}
+.menu > li > a:hover,
+.menu > .active > a,
+.menu > li > a:focus {
+	text-decoration: none;
+	background-color: #ed1c24;
+	color: #fff;
+}
+.menu > li > a > img {
+	max-width: none;
+}
+.menu > .pull-right {
+	float: right;
 }
 body {
   background: url("../images/1.jpg")  no-repeat center center fixed;
@@ -2868,38 +2918,6 @@ input[type="submit"].btn.btn-mini {
 }
 .alert-block p + p {
 	margin-top: 5px;
-}
-.menu {
-	margin-left: 0;
-	margin-bottom: 5px;
-	list-style: none;
-	display: table;
-	width: 100%;
-        padding-bottom: 1em;
-	border-bottom: 1px solid #eee;
-}
-.menu > li {
-	display: table-cell;
-	*display: inline;
-	*zoom: 1;
-	text-align: center;
-	font-size: x-large;
-}
-.menu > li > a {
-	display: block;
-	padding: 0.5em;
-}
-.menu > li > a:hover,
-.menu > li > a:focus {
-	text-decoration: none;
-	background-color: #ed1c24;
-	color: #fff;
-}
-.menu > li > a > img {
-	max-width: none;
-}
-.menu > .pull-right {
-	float: right;
 }
 .nav-header {
 	display: block;

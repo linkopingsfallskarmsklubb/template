@@ -16,9 +16,9 @@
 		<folder>css</folder>
 	</files>
 	<positions>
-		<position>menu</position>
+		<position>menu-top</position>
+		<position>menu-sub</position>
 		<position>top</position>
-		<position>article</position>
 		<position>languages</position>
 		<position>breadcrumbs</position>
 		<position>bottom</position>

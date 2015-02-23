@@ -20,15 +20,31 @@
   </div>
   <div id="lfk-logo"></div>
   <div id="lfk-page">
-    <jdoc:include type="modules" name="menu" />
+    <div id="menu-top">
+      <jdoc:include type="modules" name="menu-top" />
+    </div>
+    <div id="menu-sub">
+      <jdoc:include type="modules" name="menu-sub" />
+    </div>
     <jdoc:include type="modules" name="top" />
     <div id="content">
       <jdoc:include type="message" />
-<?php if ($this->countModules('article')) { ?>
       <div id="articleimg">
-        <jdoc:include type="modules" name="article" />
+        <?php
+// Show all images matching images/pages/$alias/*.jpg
+$alias = JFactory::getApplication()->getMenu()->getActive()->alias;
+$prefix = '/images/pages/' . $alias . '/';
+$localdir = dirname($this->_file) . $prefix;
+foreach (scandir($localdir) as $file) {
+  $localpath = $localdir . $file;
+  if (is_dir($localpath) || pathinfo($file, PATHINFO_EXTENSION) != 'jpg')
+    continue;
+  echo '<img src="';
+  echo $this->baseurl . '/templates/' . $this->template . $prefix . $file;
+  echo '" />';
+}
+		?>
       </div>
-<?php } ?>
       <jdoc:include type="component" />
     </div>
     <jdoc:include type="modules" name="bottom" />
