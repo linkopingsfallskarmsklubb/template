@@ -1,4 +1,10 @@
-<?php defined( '_JEXEC' ) or die( 'Restricted access' );?>
+<?php
+defined( '_JEXEC' ) or die( 'Restricted access' );
+// Hide the Joomla generator.
+// Security by obscurity, sure - but it's nice to not be automatically
+// scraped.
+JFactory::getDocument()->setGenerator('');
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
@@ -43,8 +49,8 @@ if (is_file($localdir . 'top.jpg')) {
       <jdoc:include type="message" />
         <?php
 // Show all images matching images/pages/$alias/*.jpg (but not top.jpg)
-$scan = scandir($localdir);
-if ($scan !== false) {
+if (is_dir($localdir)) {
+  $scan = scandir($localdir);
   echo '<div id="articleimg">';
   foreach (scandir($localdir) as $file) {
     $localpath = $localdir . $file;
