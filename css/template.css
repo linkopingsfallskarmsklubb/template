@@ -48,6 +48,11 @@ html {
   display: block;
   padding-bottom: 1em;
 }
+#topimg {
+  background-size: cover;
+  background-position: center;
+  height: 10em;
+}
 .menu {
 	margin-left: 0;
 	margin-bottom: 5px;

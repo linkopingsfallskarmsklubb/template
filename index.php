@@ -27,20 +27,30 @@
     <div id="menu-sub">
       <jdoc:include type="modules" name="menu-sub" />
     </div>
-    <jdoc:include type="modules" name="top" />
-    <div id="content">
-      <jdoc:include type="message" />
-        <?php
-// Show all images matching images/pages/$alias/*.jpg
+    <?php
 $alias = JFactory::getApplication()->getMenu()->getActive()->alias;
 $prefix = '/images/pages/' . $alias . '/';
 $localdir = JPATH_ROOT . $prefix;
+
+echo '<!-- alias: ' . $alias . ' -->';
+if (is_file($localdir . 'top.jpg')) {
+  echo '<div id="topimg" ';
+  echo 'style="background-image: url(' . $prefix . 'top.jpg);">';
+  echo '</div>';
+}
+    ?>
+    <div id="content">
+      <jdoc:include type="message" />
+        <?php
+// Show all images matching images/pages/$alias/*.jpg (but not top.jpg)
 $scan = scandir($localdir);
 if ($scan !== false) {
   echo '<div id="articleimg">';
   foreach (scandir($localdir) as $file) {
     $localpath = $localdir . $file;
     if (is_dir($localpath) || pathinfo($file, PATHINFO_EXTENSION) != 'jpg')
+      continue;
+    if ($file == 'top.jpg')
       continue;
     echo '<img src="'. $prefix . $file . '" />';
   }
