@@ -28,7 +28,7 @@ html {
   height: auto;
   min-height: 20em;
 }
-#lfk-page #menu-sub {
+#lfk-page #menu-bottom {
   padding-bottom: 1.0em;
 }
 #lfk-footer {
@@ -72,6 +72,9 @@ html {
 #menu-sub .menu > li {
 	font-size: large;
 }
+#menu-bottom .menu > li {
+	font-size: normal;
+}
 #menu-top .menu > li > a {
 	display: block;
 	padding: 0.5em;
@@ -81,6 +84,12 @@ html {
 #menu-sub .menu > li > a {
 	display: block;
 	padding: 0.2em;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
+}
+#menu-bottom .menu > li > a {
+	display: block;
+	padding: 0.1em;
     margin-left: 0.1em;
     margin-right: 0.1em;
 }

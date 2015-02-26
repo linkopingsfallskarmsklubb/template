@@ -1,5 +1,6 @@
 <?php
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
 // Hide the Joomla generator.
 // Security by obscurity, sure - but it's nice to not be automatically
 // scraped.
@@ -33,6 +34,9 @@ JFactory::getDocument()->setGenerator('');
     <div id="menu-sub">
       <jdoc:include type="modules" name="menu-sub" />
     </div>
+    <div id="menu-bottom">
+      <jdoc:include type="modules" name="menu-bottom" />
+    </div>
     <?php
 $alias = JFactory::getApplication()->getMenu()->getActive()->alias;
 $prefix = '/images/pages/' . $alias . '/';
@@ -51,16 +55,21 @@ if (is_file($localdir . 'top.jpg')) {
 // Show all images matching images/pages/$alias/*.jpg (but not top.jpg)
 if (is_dir($localdir)) {
   $scan = scandir($localdir);
-  echo '<div id="articleimg">';
-  foreach (scandir($localdir) as $file) {
+  $first = true;
+  foreach ($scan as $file) {
     $localpath = $localdir . $file;
     if (is_dir($localpath) || pathinfo($file, PATHINFO_EXTENSION) != 'jpg')
       continue;
     if ($file == 'top.jpg')
       continue;
+    if ($first) {
+      echo '<div id="articleimg">';
+      $first = false;
+    }
     echo '<img src="'. $prefix . $file . '" />';
   }
-  echo '</div>';
+  if (!$first)
+    echo '</div>';
 }
 	  ?>
       <jdoc:include type="component" />
