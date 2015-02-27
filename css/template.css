@@ -1,75 +1,20 @@
 html {
   overflow-y: scroll;
 }
-#lfk-languages {
-  position: absolute;
-  right: 1em;
-  top: 1em;
-}
-#lfk-logo {
-  display: block;
-  width: 256px;
-  height: 256px;
-  background: url("../images/lfk.png");
-  background-size: cover;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-}
-#lfk-page {
-  margin-top: -1em;
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
-  max-width: 1024px;
-  background: #fff;
-  padding: 1em;
-  padding-top: 1.0em;
-  height: auto;
-  min-height: 20em;
-}
-#lfk-page #menu-bottom {
-  padding-bottom: 1.0em;
-}
-#lfk-footer {
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
-  max-width: 1024px;
-  background-color: #eee;
-  padding-top: 3em;
-  padding: 1em;
-}
 #articleimg {
   float: right;
   padding: 1em;
 }
-#articleimg img {
-  display: block;
-  padding-bottom: 1em;
-}
 .contact-grid {
-  display: table-row;
   list-style: none;
-  width: 100%;
+  margin: 0 0 0 0;
 }
-.contact {
-  display: table-cell;
-  min-height: 100px;
-  width: 33%;
+.contact td, .contact {
   vertical-align: top;
-}
-.contact td {
-  vertical-align: top;
-  margin-top: 1em;
 }
 .contactimg {
   margin-top: 1em;
-}
-#topimg {
-  background-size: cover;
-  background-position: center;
-  height: 10em;
+  margin-right: 0.3em;
 }
 .menu {
 	margin-left: 0;
@@ -123,6 +68,98 @@ html {
 }
 .menu > .pull-right {
 	float: right;
+}
+@media (max-width: 849px) {
+  #lfk-logo {
+    width: 128px;
+    height: 128px; 
+  }
+  .menu {
+    display: none;
+  }
+  #articleimg {
+    display: none;
+  }
+  .contact {
+    margin-bottom: 1em;
+  }
+  .contact a {
+    font-size: x-small;
+  }
+}
+@media (max-width: 400px) {
+  .contact a {
+    font-size: xx-small;
+  }
+}
+@media (min-width: 850px) {
+  #lfk-logo {
+    width: 256px;
+    height: 256px; 
+  }
+  .contact-grid {
+    display: table-row;
+    width: 100%;
+  }
+  .contact {
+    display: table-cell;
+    min-height: 100px;
+    width: 50%;
+  }
+  .contact td {
+    vertical-align: top;
+    min-width: 100px;
+  }
+  .contact a {
+    font-size: normal;
+  }
+}
+#lfk-languages {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+#lfk-logo {
+  display: block;
+  background: url("../images/lfk.png");
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+#lfk-page {
+  margin-top: -1em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: 1024px;
+  background: #fff;
+  padding: 1em;
+  padding-top: 1.0em;
+  height: auto;
+  min-height: 20em;
+  min-width: 260px;
+}
+#lfk-page #menu-bottom {
+  padding-bottom: 1.0em;
+}
+#lfk-footer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: 1024px;
+  background-color: #eee;
+  padding-top: 3em;
+  padding: 1em;
+}
+#articleimg img {
+  display: block;
+  padding-bottom: 1em;
+}
+#topimg {
+  background-size: cover;
+  background-position: center right;
+  height: 10em;
 }
 body {
   background: url("../images/1.jpg")  no-repeat center center fixed;
@@ -181,7 +218,7 @@ sub {
 	bottom: -0.25em;
 }
 img {
-	max-width: 100%;
+	/*max-width: 100%;*/
 	width: auto \9;
 	height: auto;
 	vertical-align: middle;
@@ -5746,7 +5783,7 @@ a.badge:focus {
 	.nav-collapse.collapse {
 		height: auto !important;
 		overflow: visible !important;
-	}
+    }
 }
 .small {
 	font-size: 11px;

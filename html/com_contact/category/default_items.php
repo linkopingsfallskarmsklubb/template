@@ -41,7 +41,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
       <ul class="category contact-grid">		
 			<?php foreach ($this->items as $i => $item) : ?>
-<?php if ($i % 3 == 0 && $i > 0) { ?>
+<?php if ($i % 2 == 0 && $i > 0) { ?>
       </ul>
       <ul class="category contact-grid">
 <?php } ?>
@@ -63,7 +63,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						  <b><?php echo $item->name; ?></b>
 						  <?php if ($this->items[$i]->published == 0) : ?>
 						    <span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
-						  <?php endif; ?>
+						  <?php endif; ?><br >
                           <a href="mailto:<?php echo $item->email_to; ?>"><?php echo $item->email_to; ?></a>
                           <?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?><br />
 						  <?php echo $item->mobile; ?><br />
