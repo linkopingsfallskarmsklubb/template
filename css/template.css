@@ -48,6 +48,24 @@ html {
   display: block;
   padding-bottom: 1em;
 }
+.contact-grid {
+  display: table-row;
+  list-style: none;
+  width: 100%;
+}
+.contact {
+  display: table-cell;
+  min-height: 100px;
+  width: 33%;
+  vertical-align: top;
+}
+.contact td {
+  vertical-align: top;
+  margin-top: 1em;
+}
+.contactimg {
+  margin-top: 1em;
+}
 #topimg {
   background-size: cover;
   background-position: center;
