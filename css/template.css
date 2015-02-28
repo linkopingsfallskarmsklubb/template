@@ -16,6 +16,39 @@ html {
   margin-top: 1em;
   margin-right: 0.3em;
 }
+#manifest-year {
+  float: right;
+  width: initial;
+}
+.manifest-data {
+  min-width: 30%;
+}
+.manifest-top_student-0 {
+  min-width: 60%;
+}
+.manifest-data td {
+  text-align: center;
+}
+.manifest-data .manifest-column-0 {
+  text-align: left;
+}
+.manifest-account-0 .manifest-column-0,
+.manifest-account-0 .manifest-column-1 {
+  text-align: center;
+  font-weight: bold;
+}
+.manifest-jumps-0 {
+  min-width: 50%;
+}
+.manifest-jumps-1 {
+  min-width: 50%;
+}
+.manifest-account-1 {
+  min-width: 100%;
+}
+.manifest-account-1 .manifest-column-5 {
+  text-align: left;
+}
 .menu {
 	margin-left: 0;
 	margin-bottom: 5px;
@@ -196,6 +229,10 @@ html {
   background-position: center right;
   height: 10em;
 }
+.blog-featured .item-image img {
+  margin-top: -2em;
+  margin-bottom: 0.5em;
+}
 body {
   background: url("../images/1.jpg")  no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -253,7 +290,7 @@ sub {
 	bottom: -0.25em;
 }
 img {
-	/*max-width: 100%;*/
+	max-width: 100%;
 	width: auto \9;
 	height: auto;
 	vertical-align: middle;
@@ -7541,4 +7578,3 @@ code {
 	font-weight: bold;
 	padding: 1px 4px;
 }
-
