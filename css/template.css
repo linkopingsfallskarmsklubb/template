@@ -87,11 +87,13 @@ html {
     order: 2;
   }
   #menu-top-expander {
-    float: right;
-    width: 32px;
-    padding: 0.5em;
-    line-height: 24px;
-    margin: 2px;
+    text-align: right;
+    margin-top: -2.0em;
+  }
+  #menu-top-state {
+    position: relative;
+    right: 1em;
+    top: 2.5em;
   }
   #menu-top .menu > li:not(.active) {
     display: none;
@@ -137,6 +139,14 @@ html {
   .menu > li {
     display: table-cell;
   	*display: inline;
+  }
+  #menu-top .menu > li {
+	font-size: large;
+  }
+}
+@media (min-width: 1020px) {
+  #menu-top .menu > li {
+	font-size: x-large;
   }
 }
 #lfk-languages {

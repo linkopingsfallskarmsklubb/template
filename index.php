@@ -33,7 +33,22 @@ ga('create', 'UA-60208052-1', 'auto');
 ga('send', 'pageview');
 
 var menuState = false;
-function toggle() {
+jQuery(document).ready(function() {
+  checkSize();
+  jQuery(window).resize(checkSize);
+});
+
+function checkSize(){
+  if (jQuery('#menu-top-expander').css('display') == 'none') {
+    jQuery('#menu-top .menu > li:not(.active)').show();
+    jQuery('#menu-sub').show();
+    jQuery('#menu-bottom').show();
+    jQuery('.menu > li').css('display', '');
+  } else {
+    console.log('Visible');
+  }
+}
+function toggle() {  
   if (menuState) {
     jQuery('#menu-top .menu > li:not(.active)').hide(100);
     jQuery('#menu-sub').show(100);
@@ -54,10 +69,10 @@ function toggle() {
   </div>
   <a id="lfk-logo" href="/"></a>
   <div id="lfk-page">
+    <div id="menu-top-expander" onclick="toggle(); return false;">
+      <div id="menu-top-state" class="btn icon-chevron-down"></div>
+    </div>
     <div id="menu-top">
-      <a class="btn" id="menu-top-expander" onclick="toggle();">
-        <span id="menu-top-state" class="icon-chevron-down"></span>
-      </a>
       <jdoc:include type="modules" name="menu-top" />
     </div>
     <div id="menu-sub">
