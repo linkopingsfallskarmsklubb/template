@@ -231,7 +231,7 @@ html {
   padding-top: 1.0em;
   height: auto;
   min-height: 20em;
-  min-width: 260px;
+  min-width: 261px;
 }
 #lfk-page #menu-spacer {
   padding-bottom: 1.0em;
@@ -244,6 +244,12 @@ html {
   background-color: #eee;
   padding-top: 3em;
   padding: 1em;
+  min-width: 261px;
+  height: 60px;
+  overflow: hidden
+}
+#lfk-footer img {
+  margin: 0.1em;
 }
 #articleimg img {
   display: block;
