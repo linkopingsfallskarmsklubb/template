@@ -5,6 +5,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Security by obscurity, sure - but it's nice to not be automatically
 // scraped.
 JFactory::getDocument()->setGenerator('');
+JHtml::_('jquery.ui');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
@@ -22,16 +23,30 @@ JFactory::getDocument()->setGenerator('');
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0&appId=1545884919007445";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+}(document, 'script', 'facebook-jssdk'));
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-60208052-1', 'auto');
-  ga('send', 'pageview');
+ga('create', 'UA-60208052-1', 'auto');
+ga('send', 'pageview');
 
+var menuState = false;
+function toggle() {
+  if (menuState) {
+    jQuery('#menu-top .menu > li:not(.active)').hide(100);
+    jQuery('#menu-sub').show(100);
+    jQuery('#menu-bottom').show(100);
+    jQuery('#menu-top-state').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+  } else {
+    jQuery('#menu-top .menu > li:not(.active)').show(100);
+    jQuery('#menu-sub').hide(100);
+    jQuery('#menu-bottom').hide(100);
+    jQuery('#menu-top-state').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+  }
+  menuState = !menuState;
+}  
 </script>
 
   <div id="lfk-languages">
@@ -40,6 +55,9 @@ JFactory::getDocument()->setGenerator('');
   <a id="lfk-logo" href="/"></a>
   <div id="lfk-page">
     <div id="menu-top">
+      <a class="btn" id="menu-top-expander" onclick="toggle();">
+        <span id="menu-top-state" class="icon-chevron-down"></span>
+      </a>
       <jdoc:include type="modules" name="menu-top" />
     </div>
     <div id="menu-sub">
@@ -48,6 +66,7 @@ JFactory::getDocument()->setGenerator('');
     <div id="menu-bottom">
       <jdoc:include type="modules" name="menu-bottom" />
     </div>
+    <div id="menu-spacer"></div>
     <?php
 $alias = JFactory::getApplication()->getMenu()->getActive()->alias;
 $prefix = '/images/pages/' . $alias . '/';
