@@ -260,6 +260,22 @@ html {
   background-position: center right;
   height: 10em;
 }
+.blog-featured .item-title {
+  position: relative;
+  top: 0.6em;
+  left: 0.3em;
+  color: white;
+}
+.blog-featured .item-image {
+  margin-top: -2em;
+}
+.blog-featured .item-title a {
+  color: white;
+  text-decoration: none;
+}
+.blog-featured .dropdown-toggle {
+  display: none;
+}
 body {
   background: url("../images/1.jpg")  no-repeat center center fixed;
   -webkit-background-size: cover;
