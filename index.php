@@ -83,12 +83,25 @@ function toggle() {
     </div>
     <div id="menu-spacer"></div>
     <?php
-$alias = JFactory::getApplication()->getMenu()->getActive()->alias;
+$activeMenu = JFactory::getApplication()->getMenu()->getActive();
+
+/* Use article alias if available */
+if (isset($activeMenu->query) &&
+    $activeMenu->query['option'] == 'com_content' &&
+    $activeMenu->query['view'] == 'article') {
+  $articleId = $activeMenu->query['id'];
+  $article = JTable::getInstance('content');
+  $article->load($articleId);
+  $alias = $article->alias;
+} else {
+  $alias = $activeMenu->alias;
+}
+
 $prefix = '/images/pages/' . $alias . '/';
 $localdir = JPATH_ROOT . $prefix;
-
 echo '<!-- alias: ' . $alias . ' -->';
-if (is_file($localdir . 'top.jpg')) {
+
+if (isset($localdir) && is_file($localdir . 'top.jpg')) {
   echo '<div id="topimg" ';
   echo 'style="background-image: url(' . $prefix . 'top.jpg);">';
   echo '</div>';
@@ -98,7 +111,7 @@ if (is_file($localdir . 'top.jpg')) {
       <jdoc:include type="message" />
         <?php
 // Show all images matching images/pages/$alias/*.jpg (but not top.jpg)
-if (is_dir($localdir)) {
+if (isset($localdir) && is_dir($localdir)) {
   $scan = scandir($localdir);
   $first = true;
   foreach ($scan as $file) {
