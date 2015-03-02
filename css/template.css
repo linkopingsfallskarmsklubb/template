@@ -11,6 +11,7 @@ html {
 }
 .contact td, .contact {
   vertical-align: top;
+  padding-right: 1em;
 }
 .contactimg {
   margin-top: 1em;
@@ -246,7 +247,6 @@ html {
   padding: 1em;
   min-width: 261px;
   height: 60px;
-  overflow: hidden
 }
 #lfk-footer img {
   margin: 0.1em;

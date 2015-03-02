@@ -60,13 +60,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
                           <p>
                             <?php echo $item->misc ?>
                           </p>
+                          <?php if (!empty ($item->address)) : ?>
+                          <p><?php echo str_replace("\n", "<br />", $item->address); ?></p>
+					      <?php endif; ?>
 						  <b><?php echo $item->name; ?></b>
 						  <?php if ($this->items[$i]->published == 0) : ?>
 						    <span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
-						  <?php endif; ?><br >
-                          <a href="mailto:<?php echo $item->email_to; ?>"><?php echo $item->email_to; ?></a>
-                          <?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?><br />
-						  <?php echo $item->mobile; ?><br />
+						  <?php endif; ?><br />
+                          <span><?php echo $item->email_to; ?><br /></span>
+                          <?php if (!empty ($item->telephone)) : ?>
+                          <?php echo $item->telephone; ?><br />
+					      <?php endif; ?>
+                          <?php if (!empty ($item->mobile)) : ?>
+                          <?php echo $item->mobile; ?><br />
 					      <?php endif; ?>
                               </td>
                             </tr>
