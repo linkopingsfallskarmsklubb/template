@@ -13,7 +13,7 @@ ignore_user_abort(true);
 
 isset($_FILES['dump']) || die('No file attached');
 
-define('_LFK_API');
+define('_LFK_API', '');
 require_once('secret.php');
 if ($_POST['secret'] !== WEBSITE_SECRET) {
   die('Wrong secret');
