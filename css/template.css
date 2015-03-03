@@ -283,11 +283,36 @@ html {
   left: 0.3em;
 }
 body {
-  background: url("../images/1.jpg")  no-repeat center center fixed;
+  background: none no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+@media (min-width: 1920px) {
+  body {
+    background-image: url("https://storage.googleapis.com/lfk-cdn/2560.jpg");
+  }
+}
+@media (min-width: 1600px) {
+  body {
+    background-image: url("https://storage.googleapis.com/lfk-cdn/1920.jpg");
+  }
+}
+@media (min-width: 1280px) {
+  body {
+    background-image: url("https://storage.googleapis.com/lfk-cdn/1600.jpg");
+  }
+}
+@media (min-width: 800px) {
+  body {
+    background-image: url("https://storage.googleapis.com/lfk-cdn/1280.jpg");
+  }
+}
+@media (max-width: 799px) {
+  body {
+    background-image: url("https://storage.googleapis.com/lfk-cdn/800.jpg");
+  }
 }
 article,
 aside,
