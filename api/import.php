@@ -8,12 +8,16 @@
  This is all super-ugly and should be replaced with a
  replicated setup. */
 
-/* TODO: authentication */
-
 set_time_limit(0);
 ignore_user_abort(true);
 
 isset($_FILES['dump']) || die('No file attached');
+
+define('_LFK_API');
+require_once('secret.php');
+if ($_POST['secret'] !== WEBSITE_SECRET) {
+  die('Wrong secret');
+}
 
 // Try to stage it first
 $cmd = '(echo "DROP DATABASE IF EXISTS skywin_stage;";';
@@ -43,4 +47,5 @@ foreach ($tables as $table) {
   mysql_query('RENAME TABLE skywin_stage.' . $table . ' TO skywin.' . $table);
 }
 
+syslog(LOG_INFO, 'New SkyWin database uploaded');
 ?>
