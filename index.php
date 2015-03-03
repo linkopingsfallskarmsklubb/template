@@ -34,6 +34,18 @@ ga('send', 'pageview');
 
 var menuState = false;
 jQuery(document).ready(function() {
+  // Hack: Install click handlers on the images
+  // to support clicking on the images as well as the
+  // headlines
+  jQuery('#topimg').click(function() {
+    window.location = jQuery('#topimg h2 a').attr('href');
+  });
+  jQuery('.blog-featured .item').each(function() {
+    jQuery(this).click(function() {
+      window.location = jQuery(this).find('a').attr('href');
+    });
+  });
+
   checkSize();
   jQuery(window).resize(checkSize);
 });
@@ -99,11 +111,17 @@ if (isset($activeMenu->query) &&
 
 $prefix = '/images/pages/' . $alias . '/';
 $localdir = JPATH_ROOT . $prefix;
-echo '<!-- alias: ' . $alias . ' -->';
+echo '<!-- alias: ' . $alias . ' -->' . "\n";
 
-if (isset($localdir) && is_file($localdir . 'top.jpg')) {
+if (isset($localdir) && is_file($localdir . 'top.jpg')) {   
   echo '<div id="topimg" ';
   echo 'style="background-image: url(' . $prefix . 'top.jpg);">';
+  // Hack to display 'Get here' link on the top page for the start page
+  if ($alias == 'start') {
+    echo '<h2>';
+    echo '<a href="' . JText::_('PAGE_START_GET_HERE_LINK') . '">';
+    echo JText::_('PAGE_START_GET_HERE') . '</a></h2>';
+  } 
   echo '</div>';
 }
     ?>
@@ -149,8 +167,8 @@ if (isset($localdir) && is_dir($localdir)) {
 <img src="//ssl.gstatic.com/images/icons/gplus-32.png" alt="Google+" style="border:0;width:32px;height:32px;"/>
 </a>
     </div>
+    <!-- Needs to be 225 in data-width for iPhone 4 -->
     <div class="fb-like" data-href="http://www.facebook.com/linkopingsfallskarmsklubb" data-width="225" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-    
   </div>
 </body>
 </html>

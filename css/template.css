@@ -269,12 +269,18 @@ html {
 .blog-featured .item-image {
   margin-top: -2em;
 }
-.blog-featured .item-title a {
+.blog-featured .item-title a,
+#topimg h2 a {
   color: white;
   text-decoration: none;
 }
 .blog-featured .dropdown-toggle {
   display: none;
+}
+#topimg h2 {
+  position: relative;
+  top: 0.3em;
+  left: 0.3em;
 }
 body {
   background: url("../images/1.jpg")  no-repeat center center fixed;
