@@ -41,8 +41,9 @@ jQuery(document).ready(function() {
     window.location = jQuery('#topimg h2 a').attr('href');
   });
   jQuery('.blog-featured .item').each(function() {
-    jQuery(this).click(function() {
-      window.location = jQuery(this).find('a').attr('href');
+    var link = jQuery(this).find('a').attr('href');
+    jQuery(this).find('.item-image').click(function() {
+      window.location = link;
     });
   });
 
