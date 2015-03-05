@@ -37,9 +37,13 @@ jQuery(document).ready(function() {
   // Hack: Install click handlers on the images
   // to support clicking on the images as well as the
   // headlines
-  jQuery('#topimg').click(function() {
-    window.location = jQuery('#topimg h2 a').attr('href');
-  });
+  var href = jQuery('#topimg h2 a').attr('href');
+  if (href != undefined) {
+    jQuery('#topimg').click(function() {
+      window.location = href;
+    });
+    jQuery('#topimg').css('cursor', 'pointer');
+  }
   jQuery('.blog-featured .item').each(function() {
     var link = jQuery(this).find('a').attr('href');
     jQuery(this).find('.item-image').click(function() {

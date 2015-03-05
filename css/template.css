@@ -271,6 +271,7 @@ html {
 }
 .blog-featured .item-image {
   margin-top: -2em;
+  cursor: pointer;
 }
 .blog-featured .item-title a,
 #topimg h2 a {
