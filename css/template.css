@@ -287,7 +287,8 @@ html {
   left: 0.3em;
 }
 body {
-  background: none no-repeat center center fixed;
+  /* Use a default background for older browsers */
+  background: url("https://storage.googleapis.com/lfk-cdn/1280.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
