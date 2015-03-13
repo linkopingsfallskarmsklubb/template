@@ -290,6 +290,9 @@ html {
   display: initial;
   margin-left: 0.2em;
 }
+#tandemform input[type="text"] {
+  width: initial;
+}
 #book-giftcard {
   display: none;
 }

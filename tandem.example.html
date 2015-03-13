@@ -1,0 +1,85 @@
+<p>Se ut en grönmarkerad dag i kalendern nedan - dessa dagar finns det lediga tider för tandemhopp.</p>
+<p>Vi bedriver tandemhoppning från maj till oktober, nya tider läggs ut vartefter de blir tillgängliga för bokning. Du kan växla månad med pilarna i övre hörnen på kalendern. Vi lägger in nya tider löpande och dagarna blir bokningsbara senast fyra veckor i förväg. Hör av er till vår tandembokare Malin om du undrar över ett datum som inte är grönmarkerat i kalendern.</p>
+<p>Vi kommer sedan höra av oss till er inom några dagar för att bekräfta att hoppet är inbokat.</p>
+<h3>Tänk på att!</h3>
+<p>Det finns vissa krav för att få göra ett tandemhopp.</p>
+<ul>
+  <li>Min längd: ca. 140 cm</li>
+  <li>Max längd: 200 cm</li>
+  <li>Max vikt: ca. 100 kg</li>
+</ul>
+<p>Om den som ska hoppa är längre och/eller tyngre än angivet, kontakta oss för att se om det går att lösa ändå.</p>
+<p>Tisdagar hoppar vi tandem 17-21, och under lördagar samt söndagar hoppar vi 10-18.</p>
+<h3>På hoppdagen är det viktigt att:</h3>
+<ul>
+  <li>Ni är ute på hoppfältet i tid. Har ni frågor om väder på hoppdagen ring hoppledaren.<br />Det är viktigt att inte vara påverkad av alkohol eller andra droger på hoppdagen.</li>
+  <li>Den som ska hoppa kommer att få fylla i en enkel hälsodeklaration innan hoppet.</li>
+</ul>
+<h3 style="line-height: 15.8079996109009px;">Bokningsformulär</h3>
+<form id="tandemform" action="/marten/tandem/book.php" method="POST">
+  <table>
+    <tbody>
+      <tr>
+        <td style="text-align: left;"><strong>Namn</strong></td>
+        <td><input name="name" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;"><strong>E-post</strong></td>
+        <td><input name="email" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;"><strong>Kontaktperson</strong></td>
+        <td><input name="contact" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">(fyll bara i om hoppet är t.ex. en gåva)</td>
+      </tr>
+      <tr>
+        <td><strong>Längd (cm)</strong></td>
+        <td><input name="height" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td><strong>Vikt (kg) </strong></td>
+        <td><input name="weight" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td><strong>Hoppdatum</strong></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="2"><input id="form-date" name="date" type="hidden" value="" />
+          <div id="calendar" class="cal_cont" style="margin-left: auto; margin-right: auto;" data-title=""> </div>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Telefonnummer</strong></td>
+        <td><input name="phone" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td><strong>Foto &amp; Video</strong><br />900 kr för foto eller film<br />1200 kr för båda</td>
+        <td style="text-align: left;">  <input id="media-photo" checked="checked" name="media" type="checkbox" value="photo" /><label for="media-photo">Foto   </label><input id="media-video" checked="checked" name="media" type="checkbox" value="video" /><label for="media-video">Film</label></td>
+      </tr>
+      <tr>
+        <td><strong>Betala med</strong></td>
+        <td>
+          <p><input id="pay-later" checked="checked" name="payment" type="radio" value="later" /><label for="pay-later">Betalkort (på hoppfältet)</label><br /> <input id="pay-giftcard" name="payment" type="radio" value="giftcard" /><label for="pay-giftcard">Presentkort</label></p>
+        </td>
+      </tr>
+      <tr id="book-giftcard">
+        <td><strong>Presentkortsnummer</strong></td>
+        <td><input name="cardid" type="text" value="" /></td>
+      </tr>
+      <tr>
+        <td> </td>
+        <td><input type="submit" value="Boka" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>Har ni frågor kontakta vår tandembokare.</p>
+</form>
+<p><img src="images/persons/malin_ek.jpg" alt="" /><br /><strong>Malin Ek</strong><br /><a href="mailto:tandem@linkopingsfallskarmsklubb.se">tandem@linkopingsfallskarmsklubb.se</a><br />0730-224556</p>
+<p>Ring oss gärna! Observera att detta är något vi sköter på vår fritid och att vi inte alltid har möjlighet att svara i telefon. Skicka gärna ett mail om du har svårt att komma fram.</p>
+<p> </p>
+<script src="templates/lfk/calendar.js"></script>
+<script src="templates/lfk/tandem.js"></script>

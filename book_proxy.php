@@ -1,6 +1,6 @@
 <?php
 // Insecure proxy to show the old booking calendar for tandems
-$url = 'http://old.skydivelfk.com/moduler/tandembokning/Boka1.aspx';
+$url = 'http://old.skydivelfk.com/moduler/tandembokning/Export.aspx';
 
 $ch = curl_init($url);
 
@@ -12,5 +12,8 @@ if (count($_POST) > 0) {
 }
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-echo str_replace('Boka1.aspx', 'book_proxy.php', curl_exec($ch));
+header('Content-Type: application/javascript');
+$data = explode("\n", trim(curl_exec($ch)));
+sort($data);
+echo json_encode($data);
 ?>

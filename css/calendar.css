@@ -1,0 +1,265 @@
+/*******************************************************/
+/* Apperance                                           */
+/* Change the overal appearance here                   */
+/*******************************************************/
+/* Container */
+/* Navigation area */
+/* Date inner cell - defines the size of the date boxes */
+/* Date wrapper cell */
+/* Date cell */
+/* Weekdays */
+/* Weeknumber */
+/* Dates from previous or next month */
+/* $scale : 2; */
+/* $icl_width    : $icl_width    * $scale; */
+/* $icl_height   : $icl_height   * $scale; */
+/* $icl_margin   : $icl_margin   * $scale; */
+/* $icl_fontSize : $icl_fontSize * $scale; */
+/* $wk_width     : $wk_width     * $scale; */
+/* $wk_fontSize  : $wk_fontSize  * $scale; */
+/* $wd_fontSize  : $wd_fontSize  * $scale; */
+/*******************************************************/
+/* Highlights                                          */
+/* Name must be on the form "X_[inner|outer]_X"          */
+/*******************************************************/
+.hl_outer_orange {
+  background-color: #FF4500 !important; }
+
+.hl_outer_green {
+  background-color: #AEE542 !important; }
+
+.hl_outer_blue {
+  background-color: #ADD8E6 !important; }
+
+.hl_inner_orange {
+  background-color: #FF4500           !important;
+  border: 1px solid #777777 !important; }
+
+.hl_inner_green {
+  background-color: #6B8E23           !important;
+  border: 1px solid #777777 !important; }
+
+.hl_inner_blue {
+  background-color: #ADD8E6           !important;
+  border: 1px solid #777777 !important; }
+
+.hl_inner_bold {
+  font-weight: bolder !important; }
+
+/*******************************************************/
+/* Calculations                                        */
+/* Do not touch                                        */
+/*******************************************************/
+/*******************************************************/
+/* Container                                           */
+/* This is the full container div.                     */
+/*******************************************************/
+.cal_cont {
+  height: auto;
+  overflow: auto;
+  width: 230px;
+  min-width: 220px;
+  padding: 20px;
+  padding-top: 10px;
+  padding-left: 5px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  user-select: none; }
+
+/*******************************************************/
+/* Navigation                                          */
+/* Pevious month, next month and current month         */
+/*******************************************************/
+.calendar_nav {
+  position: relative;
+  width: auto;
+  height: 40px;
+  text-align: center;
+  background-color: none; }
+
+.calendar_nav_date {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  font-size: 15px;
+  font-weight: bold;
+  display: table;
+  text-align: center;
+  background-color: none; }
+
+.calendar_nav_left {
+  position: absolute;
+  top: 0px;
+  left: 12px;
+  width: 30px;
+  height: 40px;
+  display: table;
+  text-align: left;
+  background-color: none;
+  z-index: 2; }
+
+.calendar_nav_right {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 30px;
+  height: 40px;
+  display: table;
+  text-align: right;
+  background-color: none;
+  z-index: 2; }
+
+.calendar_nav_img_cent {
+  display: table-cell;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  cursor: pointer; }
+
+.calendar_nav_date_cent {
+  display: table-cell;
+  vertical-align: middle; }
+
+/*******************************************************/
+/* Calendar object containers                          */
+/* Week, weekday and all dates                         */
+/*******************************************************/
+.calendar_wd {
+  clear: both;
+  width: auto;
+  margin-top: 10px;
+  margin-left: 32px; }
+
+.calendar_wk {
+  clear: both;
+  float: left;
+  margin-top: "0.5pxpx";
+  background-color: none; }
+
+.calendar_cl {
+  float: left; }
+
+/*******************************************************/
+/*                                                     */
+/*                                                     */
+/*******************************************************/
+/* Container around the date cells (adds top/left border) */
+.cont_cell {
+  overflow: hidden;
+  width: auto;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #aaaaaa;
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: #aaaaaa; }
+
+.wd {
+  float: left;
+  height: 15px;
+  width: 26px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  cursor: default;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #f7f7f7;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #f7f7f7;
+  background-color: none; }
+
+.wk {
+  clear: both;
+  width: 30px;
+  height: 30px;
+  margin: 0px;
+  padding: 0px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: default;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #f7f7f7;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #f7f7f7;
+  background-color: none; }
+
+.cell {
+  float: left;
+  width: auto;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #aaaaaa;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #aaaaaa;
+  cursor: default;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.cell_wrapper {
+  height: auto;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.innercell {
+  width: 20px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 2px;
+  padding: 0px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.innercell:hover {
+  border: 1px solid #ff0000; }
+
+/* Dates from previous/next months */
+.other {
+  color: #333333;
+  background-color: #dddddd; }
+
+/* Mondays start on new row */
+.md {
+  clear: both; }
+
+/* Selected date */
+.sel_date .cell_wrapper {
+  border-color: #000; }
+
+/* Current date */
+.cur_date {
+  text-decoration: underline !important; }
+
+.calendar_title {
+  margin-left: 2em;
+  text-align: center; }
