@@ -25,6 +25,9 @@ foreach($formMap as $key => $map) {
   if (isset($_POST[$key])) {
     if ($key == 'cardid' && $_POST['payment'] == 'later') {
       $data[$map] = 'Pay at jump';
+    } else if ($key == 'media') {
+      sort($_POST[$key]);
+      $data[$map] = implode('+', $_POST[$key]);
     } else {
       $data[$map] = $_POST[$key];
     }
