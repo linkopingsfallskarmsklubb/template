@@ -22,5 +22,6 @@
 		<position>languages</position>
 		<position>breadcrumbs</position>
 		<position>bottom</position>
+		<position>sub-bottom</position>
 	</positions>
 </extension>

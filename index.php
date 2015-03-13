@@ -163,6 +163,7 @@ if (isset($localdir) && is_dir($localdir)) {
       <jdoc:include type="component" />
     </div>
     <jdoc:include type="modules" name="bottom" />
+    <jdoc:include type="modules" name="sub-bottom" />
   </div>
   <div id="lfk-footer">
     <div style="float: left">
