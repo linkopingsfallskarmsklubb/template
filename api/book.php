@@ -31,14 +31,20 @@ foreach($formMap as $key => $map) {
   }
 }
 
-$ch = curl_init($form);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// Testing name to use to test failure flow
+if ($_POST['name'] == 'CRASH_ME') {
+  $result = false;
+} else {
+  $ch = curl_init($form);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $result = curl_exec($ch);
+}
 
-$result = curl_exec($ch);
 if ($result === false || strpos($result, $token) === false) {
-  exit('Something went wrong, please contact webmaster@linkopingsfallskarmsklubb.se :-(');
+  header("Location: /bokningsfel.html");
+  exit();
 }
 curl_close($ch);
 

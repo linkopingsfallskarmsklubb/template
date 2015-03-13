@@ -94,10 +94,7 @@
   left: 12px;
   width: 30px;
   height: 40px;
-  display: table;
-  text-align: left;
-  background-color: none;
-  z-index: 2; }
+  text-align: left; }
 
 .calendar_nav_right {
   position: absolute;
@@ -105,8 +102,12 @@
   right: 0px;
   width: 30px;
   height: 40px;
+  text-align: right; }
+
+.calendar_nav_right,
+.calendar_nav_left {
   display: table;
-  text-align: right;
+  font-size: x-large;
   background-color: none;
   z-index: 2; }
 

@@ -238,7 +238,7 @@ html {
   min-width: 261px;
 }
 #lfk-page #menu-spacer {
-  padding-bottom: 1.0em;
+  padding-bottom: 0.1em;
 }
 #lfk-footer {
   margin-left: auto;
@@ -292,6 +292,7 @@ html {
 }
 #tandemform input[type="text"] {
   width: initial;
+  max-width: 80%;
 }
 #book-giftcard {
   display: none;
