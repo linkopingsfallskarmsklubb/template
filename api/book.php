@@ -23,7 +23,11 @@ $redirect = '/tack-foer-din-bokning.html';
 $data = array();
 foreach($formMap as $key => $map) {
   if (isset($_POST[$key])) {
-    $data[$map] = $_POST[$key];
+    if ($key == 'cardid' && $_POST['payment'] == 'later') {
+      $data[$map] = 'Pay at jump';
+    } else {
+      $data[$map] = $_POST[$key];
+    }
   }
 }
 
