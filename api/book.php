@@ -28,6 +28,8 @@ foreach($formMap as $key => $map) {
     } else if ($key == 'media') {
       sort($_POST[$key]);
       $data[$map] = implode('+', $_POST[$key]);
+    } else if ($key == 'phone') {
+      $data[$map] = '# ' . $_POST[$key];
     } else {
       $data[$map] = $_POST[$key];
     }
