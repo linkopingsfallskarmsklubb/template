@@ -1,6 +1,13 @@
 <?php
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$activeMenu = JFactory::getApplication()->getMenu()->getActive();
+
+// Hack to remove category views from naked urls
+if ($activeMenu->link == 'index.php?Itemid=') {
+  header('Location: /');
+}
+
 // Hide the Joomla generator.
 // Security by obscurity, sure - but it's nice to not be automatically
 // scraped.
@@ -102,8 +109,6 @@ function toggle() {
     </div>
     <div id="menu-spacer"></div>
     <?php
-$activeMenu = JFactory::getApplication()->getMenu()->getActive();
-
 /* Use article alias if available */
 if (isset($activeMenu->query) &&
     $activeMenu->query['option'] == 'com_content' &&
