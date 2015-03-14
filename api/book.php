@@ -60,8 +60,9 @@ function redirect() {window.location = '<?php echo $redirect; ?>';}
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+var page = window.location.pathname + '?payment=<?php echo urlencode($_POST['payment']); ?>';
 ga('create', 'UA-60538721-1', 'auto');
-ga('send', 'pageview', {'hitCallback': redirect});
+ga('send', 'pageview', {'page': page, 'hitCallback': redirect});
 setTimeout(redirect, 5000);
 </script>
 Redirecting you to the next page, <a href="<?php echo $redirect; ?>">click here</a> if you're not redirected.
