@@ -8,6 +8,7 @@ function select_handler(date) {
       return true;
     }
   }
+  jQuery('#form-date').val('');
   return false;
 }
 
