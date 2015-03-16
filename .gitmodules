@@ -1,0 +1,3 @@
+[submodule "api/payson"]
+	path = api/payson
+	url = https://github.com/PaysonAktiebolag/api-integration-php.git

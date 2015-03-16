@@ -13,6 +13,11 @@ function select_handler(date) {
 }
 
 function giftcard_toggle() {
+  if (jQuery('#pay-now').prop('checked')) {
+    jQuery('#online-agreement').show();
+  } else {
+    jQuery('#online-agreement').hide();
+  }
   if (jQuery('#pay-giftcard').prop('checked')) {
     jQuery('#book-giftcard').show();
   } else {
@@ -58,6 +63,7 @@ jQuery(document).ready(function() {
     var phone = jQuery('input[name="phone"]');
     var payment = jQuery('input[name="payment"]:checked');
     var giftcard = jQuery('input[name="cardid"]');
+    var agreement = jQuery('#agreement');
 
     if (name.val().length < 2) {
       alert("Skriv in ett namn");
@@ -99,6 +105,13 @@ jQuery(document).ready(function() {
       giftcard.focus();
       return false;
     }
+
+    if (payment.val() == "now" && !agreement.prop('checked')) {
+      alert("Du måste läsa försäljningsvilkoren för att betala online");
+      agreement.focus();
+      return false;
+    }
+
     return true;
   });
 });
