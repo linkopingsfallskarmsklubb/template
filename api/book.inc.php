@@ -28,8 +28,10 @@ function send_error_report($id, $text) {
  * Save the user provided info from a booking in persistent storage
  * and return a unique reference ID (booking ID) to it.
  */
-function suspend_booking($input) {
-  $state = json_encode($input);
+function suspend_booking($data) {
+  // Track the "going to sleep" time
+  $data['time'] = time();
+  $state = json_encode($data);
   $db = JFactory::getDBO();
   $query = $db->getQuery(true);
   $query
@@ -40,10 +42,10 @@ function suspend_booking($input) {
   try {
     $db->execute();
   } catch (Exception $e) {
-    send_error_report('Database exception', $e->getMessage());
+    send_error_report('Database suspend exception', $e->getMessage());
     return false;
   }
-  return $db->insertid;
+  return $db->insertid();
 }
 
 /**
@@ -51,8 +53,49 @@ function suspend_booking($input) {
  * in the database next to it for auditing.
  */
 function resume_booking($booking_id, $payment_info) {
-  // TODO:
-  return false;
+  $db = JFactory::getDBO();
+  $query = $db->getQuery(true);
+  $query->select(array('state'))
+    ->from($db->quoteName('#__booking_suspended'))
+    ->where(array($db->quoteName('num') . ' = ' . $db->quote($booking_id)));
+  $db->setQuery($query);
+
+  try {
+    $db->execute();
+  } catch (Exception $e) {
+    send_error_report('Database resume exception', $e->getMessage());
+    return false;
+  }
+
+  $results = $db->loadAssocList();
+  if (count($results) != 1) {
+    return false;
+  }
+
+  $state_encoded = $results[0]['state'];
+
+  // Save payment info with timestamp
+  $payment_info['time'] = time();
+  $payment_encoded = json_encode($payment_info);
+  $query = $db->getQuery(true);
+  $query->update($db->quoteName('#__booking_suspended'))
+    ->set(array(
+      $db->quoteName('payment') . ' = ' . $db->quote($payment_encoded)))
+    ->where(array($db->quoteName('num') . ' = ' . $db->quote($booking_id)));
+  $db->setQuery($query);
+
+  try {
+    $db->execute();
+  } catch (Exception $e) {
+    send_error_report('Database state update exception', $e->getMessage());
+    return false;
+  }
+
+  $state = json_decode($state_encoded, true);
+  if ($state === null) {
+    return false;
+  }
+  return $state;
 }
 
 /**
@@ -72,11 +115,75 @@ function confirm_payment() {
     return false;
   }
 
+  $details = $response->getPaymentDetails();
+  $is_complete = (
+    $details->getType() == 'TRANSFER' && $details->getStatus() == 'COMPLETED');
+
   return array(
-    'purchase_id' => $response->getPaymentDetails()->getPurchaseId(),
-    'type' => $response->getPaymentDetails()->getType(),
-    'status' => $response->getPaymentDetails()->getStatus(),
-    'custom' => $response->getPaymentDetails()->getCustom());
+    'payson' => array(
+      'purchase_id' => $details->getPurchaseId(),
+      'type' => $details->getType(),
+      'status' => $details->getStatus()),
+    'note' => 'Payson: ' . $details->getPurchaseId(),
+    'is_complete' => $is_complete,
+    'custom' => $details->getCustom());
+}
+
+/**
+ * Create a new giftcard for the products specified.
+ */
+function new_giftcard($data, $payment) {
+  $columns = array();
+  $values = array();
+
+  $db = JFactory::getDBO();
+
+  $columns[] = 'expire';
+  $values[] = 'DATE_ADD(CURDATE(), INTERVAL 1 YEAR)';
+
+  $dataColumnMap = array(
+    'name' => 'person',
+    'email' => 'email',
+    'contact' => 'contact',
+    'phone' => 'phone');
+
+  foreach($dataColumnMap as $key => $value) {
+    $columns[] = $value;
+    $values[] = $db->quote($data[$key]);
+  }
+
+  $columns[] = 'note';
+  $values[] = $db->quote($payment['note']);
+
+  $columns[] = 'product_jump';
+  $values[] = 1;
+
+  if (in_array('photo', $data['media'])) {
+    $columns[] = 'product_photo';
+    $values[] = 1;
+  }
+  if (in_array('video', $data['media'])) {
+    $columns[] = 'product_video';
+    $values[] = 1;
+  }
+
+  $columns[] = 'product_credit';
+  $values[] = 0;
+
+  $query = $db->getQuery(true);
+  $query
+    ->insert($db->quoteName('#__giftcards'))
+    ->columns($db->quoteName($columns))
+    ->values(implode(',', $values));
+  $db->setQuery($query);
+
+  try {
+    $db->execute();
+  } catch (Exception $e) {
+    send_error_report('Database insert giftcard exception', $e->getMessage());
+    return false;
+  }
+  return $db->insertid();
 }
 
 /**

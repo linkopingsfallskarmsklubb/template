@@ -1,5 +1,5 @@
 <?php
-/**
+/*
 SQL needed for booking_suspended:
 
 CREATE TABLE jos_booking_suspended (
@@ -9,7 +9,6 @@ CREATE TABLE jos_booking_suspended (
   PRIMARY KEY (num),
   KEY num (num)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 */
 
 define('_LFK_API', '');
@@ -19,6 +18,12 @@ require_once('book.inc.php');
 $payment = $_POST['payment'];
 $is_payment_done = isset($_GET['TOKEN']);
 $ipn_callback = isset($_GET['ipn_secret']);
+
+if ($ipn_callback && $_GET['ipn_secret'] != IPN_SECRET) {
+  send_error_report('IPN secret mismatch',
+    'Got request but IPN secret invalid');
+  die('Invalid IPN');
+}
 
 // User wants to pay now
 if ($payment == 'now') {
@@ -70,6 +75,11 @@ if ($payment == 'now') {
 
   // This will read the payment processor information from POST/GET.
   $payment_info = confirm_payment();
+  if ($payment_info === false) {
+    // IPN is not verified
+    exit();
+  }
+
   $booking_id = $payment_info['custom'];
   if ($booking_id === false) {
     send_error_report('$booking_id === false', 'No custom booking field found');
@@ -82,8 +92,16 @@ if ($payment == 'now') {
     exit();
   }
 
-  // TODO: create giftcard
-  $giftcard = 'TODO';
+  if ($payment_info['is_complete'] !== true) {
+    // Do not go futher if this is not a COMPLETED IPN.
+    exit();
+  }
+
+  $giftcard = new_giftcard($data, $payment_info);
+  if ($giftcard === false) {
+    send_error_report('new_giftcard failed', 'Failed to create new giftcard');
+    exit();
+  }
 
   // Use the newly created gift card
   $data['cardid'] = $giftcard;
