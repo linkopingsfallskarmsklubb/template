@@ -67,9 +67,9 @@ if ($payment == 'now') {
 
   // Note: Bookings are done in the IPN callback below
   if ($payment_info['is_giftcard']) {
-    success('/tack-foer-ditt-koep.html', 'now');
+    success('/tack-foer-ditt-koep.html', 'giftcard', 'now');
   } else {
-    success('/tack-foer-din-bokning.html', 'now');
+    success('/tack-foer-din-bokning.html', 'jump', 'now');
   }
 
   // Purchase done!
@@ -135,7 +135,7 @@ if ($payment == 'now') {
     header("Location: /bokningsfel.html");
     exit();
   }
-  success('/tack-foer-din-bokning.html', $payment);
+  success('/tack-foer-din-bokning.html', 'jump', $payment);
 } else {
   // Unknown payment type :(
   header("Location: /bokningsfel.html");

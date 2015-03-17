@@ -439,7 +439,7 @@ function new_booking($input, $is_test) {
  * Create a redirection page that will register with
  * Google Analytics. Used for conversion tracking.
  */
-function success($redirect, $payment) {
+function success($redirect, $product, $payment) {
 ?>
 <script>
 function redirect() {window.location = '<?php echo $redirect; ?>';}
@@ -447,7 +447,7 @@ function redirect() {window.location = '<?php echo $redirect; ?>';}
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-var page = window.location.pathname + '?payment=<?php echo urlencode($payment); ?>';
+var page = window.location.pathname + '?product=<?php echo urlencode($product); ?>&payment=<?php echo urlencode($payment); ?>';
 ga('create', 'UA-60538721-1', 'auto');
 ga('send', 'pageview', {'page': page, 'hitCallback': redirect});
 setTimeout(redirect, 5000);
