@@ -27,6 +27,8 @@ if ($ipn_callback && $_GET['ipn_secret'] != IPN_SECRET) {
 
 // User wants to pay now
 if ($payment == 'now') {
+  validate_data($_POST);
+
   $buying_giftcard = !isset($_POST['cardid']);
   $booking_id = suspend_booking($_POST);
   if ($booking_id === false) {
@@ -35,7 +37,7 @@ if ($payment == 'now') {
   }
 
   $return_url = SITE_URL . "/templates/lfk/api/book.php";
-  $cancel_url = SITE_URL . "/avbruten-bokning.html";
+  $cancel_url = SITE_URL . "/avbrutet-koep.html";
   $ipn_url = SITE_URL . "/templates/lfk/api/book.php?ipn_secret=" . IPN_SECRET;
 
   $url = new_payment($buying_giftcard, $_POST['media'], $_POST['email'],
@@ -103,6 +105,8 @@ if ($payment == 'now') {
 
 // User wants to pay later or has a gift card, just book him
 } else if ($payment == 'later' || $payment == 'giftcard') {
+  validate_data($_POST);
+
   if (!new_booking($_POST, IS_TEST)) {
     header("Location: /bokningsfel.html");
     exit();

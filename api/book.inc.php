@@ -9,6 +9,29 @@ define('JPATH_BASE', realpath(dirname(__FILE__) . '/../../../' ) );
 require_once(JPATH_BASE.DS.'includes'.DS.'defines.php');
 require_once(JPATH_BASE.DS.'includes'.DS.'framework.php');
 
+
+/**
+ * Validate that the data has fields that we can use.
+ */
+function validate_data($data) {
+  $nonEmpty = array(
+    'name', 'weight', 'height', 'date', 'payment', 'phone', 'email');
+  foreach($nonEmpty as $field) {
+    if (!isset($data[$field]) || $data[$field] == '') {
+      die('No ' . $field . ' supplied');
+    }
+  }
+
+  if (strpos($data['email'], '@') === false) {
+    die('Invalid email provided');
+  }
+
+  if ($data['payment'] == 'giftcard' && (
+    !isset($data['cardid']) || $data['cardid'] == '')) {
+    die('No giftcard supplied');
+  }
+}
+
 /**
  * Send an error dump to the administrator via email.
  */
