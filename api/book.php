@@ -34,21 +34,11 @@ if ($payment == 'now') {
     exit();
   }
 
-  // Assume that the user always want to buy a jump
-  $products = array('jump');
-
-  // Add media as a product
-  sort($_POST['media']);
-  $extra_product = implode('+', $_POST['media']);
-  if ($extra_product != '') {
-    $products[] = $extra_product;
-  }
-
   $return_url = SITE_URL . "/templates/lfk/api/book.php";
   $cancel_url = SITE_URL . "/avbruten-bokning.html";
   $ipn_url = SITE_URL . "/templates/lfk/api/book.php?ipn_secret=" . IPN_SECRET;
 
-  $url = new_payment($buying_giftcard, $products, $_POST['email'],
+  $url = new_payment($buying_giftcard, $_POST['media'], $_POST['email'],
     $booking_id, $return_url, $cancel_url, $ipn_url, IS_TEST);
 
   if ($url === false) {

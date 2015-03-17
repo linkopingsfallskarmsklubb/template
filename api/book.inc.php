@@ -158,11 +158,11 @@ function new_giftcard($data, $payment) {
   $columns[] = 'product_jump';
   $values[] = 1;
 
-  if (in_array('photo', $data['media'])) {
+  if ($data['media'] != null && in_array('photo', $data['media'])) {
     $columns[] = 'product_photo';
     $values[] = 1;
   }
-  if (in_array('video', $data['media'])) {
+  if ($data['media'] != null && in_array('video', $data['media'])) {
     $columns[] = 'product_video';
     $values[] = 1;
   }
@@ -190,18 +190,32 @@ function new_giftcard($data, $payment) {
  * Create a new payment request, return the URL
  * to redirect the user to.
  */
-function new_payment($is_giftcard, $products, $email, $custom,
+function new_payment($is_giftcard, $media, $email, $custom,
   $return_url, $cancel_url, $ipn_url, $is_test) {
 
   require_once 'payson/lib/paysonapi.php';
 
+  // Assume that the user always want to buy a jump
   // Amount to send to receiver
-  $amount = "4190";
+  $amount = 2990;
+
+  $prefix = $is_giftcard ? 'Presentkort: ' : '';
 
    // Set the list of products.
   $order_items = array();
-  $order_items[] = new OrderItem("Presentkort: Tandemhopp", 2392, 1, 0.25, "Hopp");
-  $order_items[] = new OrderItem("Presentkort: Video & Foto", 960, 1, 0.25, "Foto+Video");
+  $order_items[] = new OrderItem($prefix . 'Tandemhopp', 2392, 1, 0.25, 'Hopp');
+
+  if ($media != null) {
+    if (in_array('photo', $media) && in_array('video', $media)) {
+      $order_items[] = new OrderItem(
+        $prefix . 'Video & Foto', 960, 1, 0.25, 'Foto+Video');
+      $amount += 1200;
+    } else if (in_array('photo', $media) || in_array('video', $media)) {
+      $order_items[] = new OrderItem(
+        $prefix . 'Video eller Foto', 720, 1, 0.25, 'FotoEllerVideo');
+      $amount += 900;
+    }
+  }
 
   $credentials = new PaysonCredentials(PAYSON_AGENT_ID, PAYSON_API_KEY);
   $api = new PaysonApi($credentials, IS_TEST);
@@ -287,6 +301,9 @@ function new_booking($input, $is_test) {
   $token = 'SUCCESS_TOKEN_DO_NOT_CHANGE';
 
   $data = array();
+  // Default media to 'none'
+  $data[$formMap['media']] = 'none';
+
   foreach($formMap as $key => $map) {
     if (isset($input[$key])) {
       if ($key == 'cardid') {
