@@ -1,68 +1,108 @@
 <?php
+/**
+SQL needed for booking_suspended:
 
-$formMap = array(
-'name' => 'entry.275431443', /* Namn */
-'email' => 'entry.1987986258', /* E-post */
-'contact' => 'entry.1385175204', /* Kontaktperson */
-'height' => 'entry.1188499459', /* Längd */
-'weight' => 'entry.79438309', /* Vikt */
-'date' => 'entry.1085938945', /* Datum (2015-01-01) */
-'phone' => 'entry.1533462447', /* Telefonnummer */
-'cardid' => 'entry.328907933', /* Presentkort (empty if cash) */
-'media' => 'entry.1504688742', /* (P)hoto (V)ideo */
-'city' => 'entry.509359054'); /* Ort */
+CREATE TABLE jos_booking_suspended (
+  num int(11) NOT NULL AUTO_INCREMENT,
+  state text NOT NULL,
+  payment text DEFAULT NULL,
+  PRIMARY KEY (num),
+  KEY num (num)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-$form = 'https://docs.google.com/a/skydivelfk.com/forms/d/' .
-  '1f2sfLt13HFbASkjBpqduaare5AsYM40l9781noY3jqE' .
-  '/formResponse';
+*/
 
-$token = 'SUCCESS_TOKEN_DO_NOT_CHANGE';
+define('_LFK_API', '');
+require_once('secret.php');
+require_once('book.inc.php');
 
-$redirect = '/tack-foer-din-bokning.html';
+$payment = $_POST['payment'];
+$is_payment_done = isset($_GET['TOKEN']);
+$ipn_callback = isset($_GET['ipn_secret']);
 
-$data = array();
-foreach($formMap as $key => $map) {
-  if (isset($_POST[$key])) {
-    if ($key == 'cardid' && $_POST['payment'] == 'later') {
-      $data[$map] = 'Pay at jump';
-    } else if ($key == 'media') {
-      sort($_POST[$key]);
-      $data[$map] = implode('+', $_POST[$key]);
-    } else if ($key == 'phone') {
-      $data[$map] = '# ' . $_POST[$key];
-    } else {
-      $data[$map] = $_POST[$key];
-    }
+// User wants to pay now
+if ($payment == 'now') {
+  $buying_giftcard = !isset($_POST['cardid']);
+  $booking_id = suspend_booking($_POST);
+  if ($booking_id === false) {
+    header("Location: /bokningsfel.html");
+    exit();
   }
-}
 
-// Testing name to use to test failure flow
-if ($_POST['name'] == 'CRASH_ME') {
-  $result = false;
+  // Assume that the user always want to buy a jump
+  $products = array('jump');
+
+  // Add media as a product
+  sort($_POST['media']);
+  $extra_product = implode('+', $_POST['media']);
+  if ($extra_product != '') {
+    $products[] = $extra_product;
+  }
+
+  $return_url = SITE_URL . "/templates/lfk/api/book.php";
+  $cancel_url = SITE_URL . "/avbruten-bokning.html";
+  $ipn_url = SITE_URL . "/templates/lfk/api/book.php?ipn_secret=" . IPN_SECRET;
+
+  $url = new_payment($buying_giftcard, $products, $_POST['email'],
+    $booking_id, $return_url, $cancel_url, $ipn_url, IS_TEST);
+
+  if ($url === false) {
+    header("Location: /bokningsfel.html");
+    exit();
+  }
+
+  header("Location: " . $url);
+  exit();
+
+// Handle return of the user from the payment processor
+} else if ($is_payment_done) {
+  // Note: Bookings are done in the IPN callback below
+  success('/tack-foer-din-bokning.html', 'now');
+
+// This is the callback from the payment provider, we're guaranteed
+// that this will be attempted so we do the booking here.
+// If we were to do it in the "is_payment_done" callback, the user could
+// have closed their browser and thus ended up paying but not getting
+// a booking.
+} else if ($ipn_callback) {
+  // Remember: This is all executed "backstage", so no reason to redirect
+  // to a nice error page or anything.
+
+  // This will read the payment processor information from POST/GET.
+  $payment_info = confirm_payment();
+  $booking_id = $payment_info['custom'];
+  if ($booking_id === false) {
+    send_error_report('$booking_id === false', 'No custom booking field found');
+    exit();
+  }
+
+  $data = resume_booking($booking_id, $payment_info);
+  if ($data === false) {
+    send_error_report('$data === false', 'No saved booking found to resume');
+    exit();
+  }
+
+  // TODO: create giftcard
+  $giftcard = 'TODO';
+
+  // Use the newly created gift card
+  $data['cardid'] = $giftcard;
+
+  if (!new_booking($data, IS_TEST)) {
+    send_error_report('new_booking failed', 'Failed to store new booking');
+    exit();
+  }
+
+// User wants to pay later or has a gift card, just book him
+} else if ($payment == 'later' || $payment == 'giftcard') {
+  if (!new_booking($_POST, IS_TEST)) {
+    header("Location: /bokningsfel.html");
+    exit();
+  }
+  success('/tack-foer-din-bokning.html', $payment);
 } else {
-  $ch = curl_init($form);
-  curl_setopt($ch, CURLOPT_POST, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  $result = curl_exec($ch);
-}
-
-if ($result === false || strpos($result, $token) === false) {
+  // Unknown payment type :(
   header("Location: /bokningsfel.html");
   exit();
 }
-curl_close($ch);
-
 ?>
-<script>
-function redirect() {window.location = '<?php echo $redirect; ?>';}
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-var page = window.location.pathname + '?payment=<?php echo urlencode($_POST['payment']); ?>';
-ga('create', 'UA-60538721-1', 'auto');
-ga('send', 'pageview', {'page': page, 'hitCallback': redirect});
-setTimeout(redirect, 5000);
-</script>
-Redirecting you to the next page, <a href="<?php echo $redirect; ?>">click here</a> if you're not redirected.
