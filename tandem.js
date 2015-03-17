@@ -57,11 +57,11 @@ jQuery(document).ready(function() {
     var name = jQuery('input[name="name"]');
     var email = jQuery('input[name="email"]');
     var contact = jQuery('input[name="contact"]');
+    var mail = jQuery('textarea[name="mail"]');
     var height = jQuery('input[name="height"]');
     var weight = jQuery('input[name="weight"]');
     var date = jQuery('input[name="date"]');
     var phone = jQuery('input[name="phone"]');
-    var payment = jQuery('input[name="payment"]:checked');
     var giftcard = jQuery('input[name="cardid"]');
     var agreement = jQuery('#agreement');
 
@@ -77,39 +77,58 @@ jQuery(document).ready(function() {
       return false;
     }
 
-    if (isNaN(parseInt(height.val())) || parseInt(height.val()) < 10 || parseInt(height.val()) > 300) {
-      alert("Skriv in en giltig längd");
-      height.focus();
-      return false;
-    }
-
-    if (isNaN(parseInt(weight.val())) || parseInt(weight.val()) < 10 || parseInt(weight.val()) > 500) {
-      alert("Skriv in en giltig vikt");
-      weight.focus();
-      return false;
-    }
-
-    if (date.val() == "") {
-      alert("Välj ett grönmarkerat datum");
-      return false;
-    }
- 
-     if (phone.val().length < 7) {
+    if (phone.val().length < 7) {
       alert("Ange ett giltigt telefonnummer (m. riktnummer)");
       phone.focus();
       return false;
     }
 
-    if (payment.val() == "giftcard" && (isNaN(parseInt(giftcard.val())) || parseInt(giftcard.val()) < 10)) {
-      alert("Ange ett giltigt presentkortsnummer");
-      giftcard.focus();
-      return false;
+    // Giftcard specific checks
+    if (mail.length > 0) {
+      if (mail.val().length < 2) {
+        alert("Skriv in vart vi ska posta presentkortet");
+        mail.focus();
+        return false;
+      }
+
+      if (!agreement.prop('checked')) {
+        alert("Du måste läsa försäljningsvilkoren för att köpa presentkort online");
+        agreement.focus();
+        return false;
+      }
     }
 
-    if (payment.val() == "now" && !agreement.prop('checked')) {
-      alert("Du måste läsa försäljningsvilkoren för att betala online");
-      agreement.focus();
-      return false;
+    // Booking specific checks
+    if (height.length > 0) {
+      var payment = jQuery('input[name="payment"]:checked');
+      if (isNaN(parseInt(height.val())) || parseInt(height.val()) < 10 || parseInt(height.val()) > 300) {
+        alert("Skriv in en giltig längd");
+        height.focus();
+        return false;
+      }
+
+      if (isNaN(parseInt(weight.val())) || parseInt(weight.val()) < 10 || parseInt(weight.val()) > 500) {
+        alert("Skriv in en giltig vikt");
+        weight.focus();
+        return false;
+      }
+
+      if (date.val() == "") {
+        alert("Välj ett grönmarkerat datum");
+        return false;
+      }
+
+      if (payment.val() == "giftcard" && (isNaN(parseInt(giftcard.val())) || parseInt(giftcard.val()) < 10)) {
+        alert("Ange ett giltigt presentkortsnummer");
+        giftcard.focus();
+        return false;
+      }
+
+      if (payment.val() == "now" && !agreement.prop('checked')) {
+        alert("Du måste läsa försäljningsvilkoren för att betala online");
+        agreement.focus();
+        return false;
+      }
     }
 
     return true;

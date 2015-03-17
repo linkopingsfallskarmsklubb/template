@@ -13,9 +13,14 @@ require_once(JPATH_BASE.DS.'includes'.DS.'framework.php');
 /**
  * Validate that the data has fields that we can use.
  */
-function validate_data($data) {
-  $nonEmpty = array(
-    'name', 'weight', 'height', 'date', 'payment', 'phone', 'email');
+function validate_data($is_giftcard, $data) {
+  if ($is_giftcard) {
+    $nonEmpty = array(
+      'name', 'payment', 'phone', 'email', 'mail');
+  } else {
+    $nonEmpty = array(
+      'name', 'weight', 'height', 'date', 'payment', 'phone', 'email');
+  }
   foreach($nonEmpty as $field) {
     if (!isset($data[$field]) || $data[$field] == '') {
       die('No ' . $field . ' supplied');
@@ -45,6 +50,39 @@ function send_error_report($id, $text) {
   ob_end_clean();
 
   mail(ERROR_EMAIL, "LFK website error: $id", $msg);
+}
+
+/**
+ * Send a mail to send a mail (hah!) with the giftcard to the buyer.
+ */
+function mail_giftcard($data, $giftcard) {
+  // TODO: Hack, but oh well.. We should read this back from the db, but
+  // it's probably never different.
+  $expire = date('Y-m-d', strtotime('+1 years'));
+  if ($data['media'] == null) {
+    $products = "Bara hopp";
+  } else {
+    $products = 'Hopp';
+    if (in_array('photo', $data['media'])) {
+      $products .= ', Foto';
+    }
+    if (in_array('video', $data['media'])) {
+      $products .= ', Video';
+    }
+  }
+  mail(GIFTCARD_EMAIL, 'Nytt presentkort att posta!',
+    "Hej!\nEn kund har precis köpt ett presentkort!\n\n".
+    "Nummer: " . $giftcard . "\n".
+    "Namn: " . $data['name'] . "\n".
+    "Produkter: $products\n" .
+    "Giltigt till: " . $expire . "\n".
+    "Kontakt: " . $data['contact'] . "\n".
+    "E-mail: " . $data['email'] . "\n".
+    "Telefon: " . $data['phone'] . "\n".
+    "Postadress:\n-----\n" . $data['mail'] . "\n-----\n");
+
+  // TODO: Send mail to user that bought the giftcard with a link to
+  // a temporary link.
 }
 
 /**
@@ -122,6 +160,43 @@ function resume_booking($booking_id, $payment_info) {
 }
 
 /**
+ * Convert a Payson PaymentDetails to a payment structure.
+ */
+function payment_details_to_structure($details) {
+  $is_complete = (
+    $details->getType() == 'TRANSFER' && $details->getStatus() == 'COMPLETED');
+
+  $decoded = json_decode($details->getCustom(), true);
+
+  return array(
+    'payson' => array(
+      'purchase_id' => $details->getPurchaseId(),
+      'type' => $details->getType(),
+      'status' => $details->getStatus()),
+    'note' => 'Payson: ' . $details->getPurchaseId(),
+    'is_complete' => $is_complete,
+    'is_giftcard' => $decoded['is_giftcard'],
+    'custom' => $decoded['custom']);
+}
+
+/**
+ * Get a payment info structure from a TOKEN
+ */
+function get_payment($token) {
+  require_once 'payson/lib/paysonapi.php';
+
+  $credentials = new PaysonCredentials(PAYSON_AGENT_ID, PAYSON_API_KEY);
+  $api = new PaysonApi($credentials, IS_TEST);
+
+  $response = $api->paymentDetails(new PaymentDetailsData($token));
+  if (!$response->getResponseEnvelope()->wasSuccessful()) {
+    return false;
+  }
+
+  return payment_details_to_structure($response->getPaymentDetails());
+}
+
+/**
  * Read the request state (GET/POST) and return
  * our custom magic value (suspended booking ID).
  */
@@ -138,18 +213,7 @@ function confirm_payment() {
     return false;
   }
 
-  $details = $response->getPaymentDetails();
-  $is_complete = (
-    $details->getType() == 'TRANSFER' && $details->getStatus() == 'COMPLETED');
-
-  return array(
-    'payson' => array(
-      'purchase_id' => $details->getPurchaseId(),
-      'type' => $details->getType(),
-      'status' => $details->getStatus()),
-    'note' => 'Payson: ' . $details->getPurchaseId(),
-    'is_complete' => $is_complete,
-    'custom' => $details->getCustom());
+  return payment_details_to_structure($response->getPaymentDetails());
 }
 
 /**
@@ -173,6 +237,12 @@ function new_giftcard($data, $payment) {
   foreach($dataColumnMap as $key => $value) {
     $columns[] = $value;
     $values[] = $db->quote($data[$key]);
+  }
+
+  // Insert mail if we have it
+  if (isset($data['mail'])) {
+    $columns[] = 'mail';
+    $values[] = $db->quote($data['mail']);
   }
 
   $columns[] = 'note';
@@ -275,7 +345,9 @@ function new_payment($is_giftcard, $media, $email, $custom,
   $pay_data->setCurrencyCode(CurrencyCode::SEK);
   $pay_data->setLocaleCode(LocaleCode::SWEDISH);
   $pay_data->setGuaranteeOffered(GuaranteeOffered::NO);
-  $pay_data->setCustom($custom);
+  $pay_data->setCustom(json_encode(array(
+    'is_giftcard' => $is_giftcard,
+    'custom' => $custom)));
   $pay_data->setShowReceiptPage(false);
 
   // Step 2: initiate payment

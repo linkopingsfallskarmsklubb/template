@@ -27,9 +27,9 @@ if ($ipn_callback && $_GET['ipn_secret'] != IPN_SECRET) {
 
 // User wants to pay now
 if ($payment == 'now') {
-  validate_data($_POST);
-
   $buying_giftcard = !isset($_POST['cardid']);
+  validate_data($buying_giftcard, $_POST);
+
   $booking_id = suspend_booking($_POST);
   if ($booking_id === false) {
     header("Location: /bokningsfel.html");
@@ -53,8 +53,26 @@ if ($payment == 'now') {
 
 // Handle return of the user from the payment processor
 } else if ($is_payment_done) {
+  // Verify that the payment actually succeeded
+  $payment_info = get_payment($_GET['TOKEN']);
+  if ($payment_info === false) {
+    header("Location: /bokningsfel.html");
+    exit();
+  }
+
+  if ($payment_info['is_complete'] !== true) {
+    header("Location: /bokningsfel.html");
+    exit();
+  }
+
   // Note: Bookings are done in the IPN callback below
-  success('/tack-foer-din-bokning.html', 'now');
+  if ($payment_info['is_giftcard']) {
+    success('/tack-foer-ditt-koep.html', 'now');
+  } else {
+    success('/tack-foer-din-bokning.html', 'now');
+  }
+
+  // Purchase done!
 
 // This is the callback from the payment provider, we're guaranteed
 // that this will be attempted so we do the booking here.
@@ -95,17 +113,23 @@ if ($payment == 'now') {
     exit();
   }
 
-  // Use the newly created gift card
-  $data['cardid'] = $giftcard;
+  if ($payment_info['is_giftcard']) {
+    mail_giftcard($data, $giftcard);
+  } else {
+    // Use the newly created gift card
+    $data['cardid'] = $giftcard;
 
-  if (!new_booking($data, IS_TEST)) {
-    send_error_report('new_booking failed', 'Failed to store new booking');
-    exit();
+    if (!new_booking($data, IS_TEST)) {
+      send_error_report('new_booking failed', 'Failed to store new booking');
+      exit();
+    }
   }
+
+  // Payment done!
 
 // User wants to pay later or has a gift card, just book him
 } else if ($payment == 'later' || $payment == 'giftcard') {
-  validate_data($_POST);
+  validate_data(false, $_POST);
 
   if (!new_booking($_POST, IS_TEST)) {
     header("Location: /bokningsfel.html");
