@@ -56,14 +56,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
                               <td width="100"><img class="contactimg" src="<?php echo $item->image ?>" alt="<?php echo $item->name; ?>"/></td>
                               <td>
                           
-                          <h4><?php echo $item->con_position; ?></h4>
+                          <h4><?php echo empty($item->con_position) ? $item->name : $item->con_position; ?></h4>
                           <p>
                             <?php echo $item->misc ?>
                           </p>
                           <?php if (!empty ($item->address)) : ?>
                           <p><?php echo str_replace("\n", "<br />", $item->address); ?></p>
 					      <?php endif; ?>
+                          <?php if (!empty ($item->con_position)) : ?>
 						  <b><?php echo $item->name; ?></b>
+                          <?php endif; ?>
 						  <?php if ($this->items[$i]->published == 0) : ?>
 						    <span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 						  <?php endif; ?><br />
