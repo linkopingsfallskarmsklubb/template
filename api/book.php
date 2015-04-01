@@ -12,7 +12,7 @@ CREATE TABLE jos_booking_suspended (
 */
 
 define('_LFK_API', '');
-require_once('secret.php');
+require_once('api.inc.php');
 require_once('book.inc.php');
 
 $payment = $_POST['payment'];

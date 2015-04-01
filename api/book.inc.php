@@ -1,14 +1,6 @@
 <?php
 defined( '_LFK_API' ) or die( 'Restricted access' );
-require_once('secret.php');
-
-// Initialize Joomla framework for database access.
-define('_JEXEC', '');
-define('DS', DIRECTORY_SEPARATOR);
-define('JPATH_BASE', realpath(dirname(__FILE__) . '/../../../' ) );
-require_once(JPATH_BASE.DS.'includes'.DS.'defines.php');
-require_once(JPATH_BASE.DS.'includes'.DS.'framework.php');
-
+require_once('api.inc.php');
 
 /**
  * Validate that the data has fields that we can use.
@@ -35,21 +27,6 @@ function validate_data($is_giftcard, $data) {
     !isset($data['cardid']) || $data['cardid'] == '')) {
     die('No giftcard supplied');
   }
-}
-
-/**
- * Send an error dump to the administrator via email.
- */
-function send_error_report($id, $text) {
-  $msg = "Hi,\n$text - sorry!\n";
-  ob_start();
-  var_dump($_SERVER);
-  var_dump($_GET);
-  var_dump($_POST);
-  $msg .= ob_get_contents();
-  ob_end_clean();
-
-  mail(ERROR_EMAIL, "LFK website error: $id", $msg);
 }
 
 /**
