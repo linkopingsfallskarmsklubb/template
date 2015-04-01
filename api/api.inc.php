@@ -57,6 +57,15 @@ function assert_user_has_view_level($view_level) {
 }
 
 /**
+ * Send 500 with a specified error message
+ */
+function internal_error($error) {
+  header('HTTP/1.1 500 Internal Server Error');
+  header('Content-Type: text/plain');
+  exit($error);
+}
+
+/**
  * Send an error dump to the administrator via email.
  */
 function send_error_report($id, $text) {
