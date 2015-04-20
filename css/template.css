@@ -65,6 +65,13 @@ html {
   background-color: red;
   height: 12px;
 }
+.manifest-top_jumps-0 {
+  counter-reset: score;
+}
+.manifest-top_jumps-0 tr td:first-child::before {
+  counter-increment: score;
+  content: counter(score) ". ";
+}
 .menu {
 	margin-left: 0;
 	margin-bottom: 5px;
