@@ -10,9 +10,9 @@ $type = isset($_GET['type']) ? $_GET['type'] : null;
 
 $query == null;
 if ($type == 'hl') {
-  $query = 'SELECT m.InternalNo, FirstName, LastName, m.Club, MAX(mi.Year) FROM skywin.memberinstruct AS mi, skywin.member AS m WHERE m.InternalNo = mi.InternalNo AND InstructType = "HL" GROUP BY m.InternalNo';
+  $query = 'SELECT m.InternalNo, FirstName, LastName, m.Club, MAX(mi.Year) as Year FROM skywin.memberinstruct AS mi, skywin.member AS m WHERE m.InternalNo = mi.InternalNo AND InstructType = "HL" GROUP BY m.InternalNo';
 } else if ($type == 'hm') {
-  $query = 'SELECT m.InternalNo, FirstName, LastName, m.Club, MAX(mi.Year) FROM skywin.memberinstruct AS mi, skywin.member AS m WHERE m.InternalNo = mi.InternalNo AND InstructType = "HM" GROUP BY m.InternalNo';
+  $query = 'SELECT m.InternalNo, FirstName, LastName, m.Club, MAX(mi.Year) as Year FROM skywin.memberinstruct AS mi, skywin.member AS m WHERE m.InternalNo = mi.InternalNo AND InstructType = "HM" GROUP BY m.InternalNo';
 } else if ($type == 'manifest') {
   $query = 'SELECT m.InternalNo, FirstName, LastName, m.Club, m.Year FROM skywin.memberclubfunction AS mcf, skywin.member AS m WHERE m.InternalNo = mcf.InternalNo AND ClubfunctionType = "MANIFEST" GROUP BY m.InternalNo';
 } else if ($type == 'pilot') {
