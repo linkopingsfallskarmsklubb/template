@@ -42,6 +42,13 @@ jQuery(document).ready(function() {
   jQuery('#pay-giftcard').click(giftcard_toggle);
   jQuery('#pay-now').click(giftcard_toggle);
   jQuery('#pay-later').click(giftcard_toggle);
+  jQuery('#is-gift').change(function() {
+    var show = jQuery(this).prop('checked');
+    jQuery('.contact-row').toggle(show);
+  });
+
+  var show = jQuery(this).prop('checked');
+  jQuery('.contact-row').toggle(show);
 
   jQuery.getJSON('/templates/lfk/book_proxy.php', function(data) {
     highligted_dates = data;
