@@ -13,6 +13,10 @@ html {
   vertical-align: top;
   padding-right: 1em;
 }
+/* Hack to disable '(frivillig)' text in the profile editing */
+fieldset:nth-of-type(2) .optional {
+  display: none;
+}
 .contactimg {
   margin-top: 1em;
   margin-right: 0.3em;
