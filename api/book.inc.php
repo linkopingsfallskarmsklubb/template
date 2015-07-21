@@ -47,7 +47,7 @@ function mail_giftcard($data, $giftcard) {
       $products .= ', Video';
     }
   }
-  mail(GIFTCARD_EMAIL, 'Nytt presentkort att posta!',
+  mail(GIFTCARD_EMAIL, 'Nytt presentkort att posta: '.$giftcard,
     "Hej!\nEn kund har precis köpt ett presentkort!\n\n".
     "Nummer: " . $giftcard . "\n".
     "Namn: " . $data['name'] . "\n".
