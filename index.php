@@ -176,7 +176,7 @@ if (isset($localdir) && is_dir($localdir)) {
 .ig-b-32 { background-image: url(//badges.instagram.com/static/images/ig-badge-sprite-32@2x.png); background-size: 60px 178px; } }</style>
 <a href="http://instagram.com/linkopingsfallskarmsklubb?ref=badge" class="ig-b- ig-b-32"><img src="//badges.instagram.com/static/images/ig-badge-32.png" alt="Instagram" /></a>
       <br />
-      <a href="https://plus.google.com/109227368255007881127?prsrc=3"
+      <a href="https://plus.google.com/+LinkopingsfallskarmsklubbSe"
    rel="publisher" target="_top" style="text-decoration:none;">
 <img src="//ssl.gstatic.com/images/icons/gplus-32.png" alt="Google+" style="border:0;width:32px;height:32px;"/>
 </a>

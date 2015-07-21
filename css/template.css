@@ -25,6 +25,16 @@ fieldset:nth-of-type(2) .optional {
   float: right;
   width: initial;
 }
+/* De-hilight giftcards that have expired */
+tr.expired .giftcard-jump {
+  display: none;
+}
+tr.expired .expire {
+  color: rgba(255, 0, 0, 0.38);
+}
+tr.expired {
+  color: #dddddd;
+}
 .manifest-data {
   min-width: 30%;
 }
