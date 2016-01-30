@@ -1,4 +1,3 @@
-
 //************************************************************************************
 // Draw calendar
 //************************************************************************************
@@ -120,7 +119,7 @@ function cal_draw_f(node, buttons, date, select_cb, highlight_cb, navigate_cb) {
   var html_cl = document.createElement("div");
   html_cl.className = 'cont_cell';
 
-  var mnp = month;
+  var mnp = month + 1;
   if (mnp < 10) {mnp = "0" + mnp; }
 
   if (extra_days > 0) {
@@ -238,7 +237,7 @@ function cal_draw_f(node, buttons, date, select_cb, highlight_cb, navigate_cb) {
 
 function date2iso(d) {
   var fd = d.getFullYear() + '-';
-  if (d.getMonth() < 10) { fd += "0"; }
+  if (d.getMonth() < 9) { fd += "0"; }
   fd += (d.getMonth()+1) + '-';
   if (d.getDate() < 10) { fd += "0"; }
   fd += d.getDate();
