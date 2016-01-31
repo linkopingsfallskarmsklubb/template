@@ -4,7 +4,7 @@ require_once('api.inc.php');
 require_once('secret.php');
 
 if ($_GET['secret'] !== READONLY_SECRET) {
-  die('Wrong secret');
+  assert_user_has_view_level('Registered');
 }
 
 header('Content-Type: application/javascript');
@@ -42,9 +42,14 @@ try {
 }
 
 $results = $db->loadAssocList();
-print 'InternalNo,Name' . "\n";
-foreach ($results as $result) {
-  $name = $result['FirstName'] . ' '. $result['LastName'] . ' (' . $result['Club'] . ')';
-  print $result['InternalNo'] . ',' . $name . "\n";
+
+if (isset($_GET['json'])) {
+  echo json_encode($results, JSON_UNESCAPED_UNICODE);
+} else {
+  print 'InternalNo,Name' . "\n";
+  foreach ($results as $result) {
+    $name = $result['FirstName'] . ' '. $result['LastName'] . ' (' . $result['Club'] . ')';
+    print $result['InternalNo'] . ',' . $name . "\n";
+  }
 }
 ?>
