@@ -255,7 +255,10 @@
 
 /* Selected date */
 .sel_date .cell_wrapper {
-  border-color: #000; }
+  border-color: #000;
+  border: 1px dashed #000 !important;
+  background-color: #5bbbff; 
+  font-weight: bold; }
 
 /* Current date */
 .cur_date {
