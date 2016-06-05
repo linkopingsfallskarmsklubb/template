@@ -48,7 +48,7 @@ if (isset($_GET['json'])) {
 } else {
   print 'InternalNo,Name' . "\n";
   foreach ($results as $result) {
-    $name = $result['FirstName'] . ' '. $result['LastName'] . ' (' . $result['Club'] . ')';
+    $name = $result['FirstName'] . ' '. $result['LastName'];
     print $result['InternalNo'] . ',' . $name . "\n";
   }
 }
