@@ -56,7 +56,7 @@ if ($user->guest) {
         csv_options: {separator: ',', delimiter: '"'},
         datatables_options: {"paging": false},
         ready: function() {
-          $('#my-table_filter input').val('<?php echo str_replace("'", '', $user->name); ?>').trigger('input');
+          //$('#my-table_filter input').val('<?php echo str_replace("'", '', $user->name); ?>').trigger('input');
         }
       });
     </script>
