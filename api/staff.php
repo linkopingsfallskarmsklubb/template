@@ -3,7 +3,9 @@ define('_LFK_API', '');
 require_once('api.inc.php');
 require_once('secret.php');
 
-if ($_GET['secret'] !== READONLY_SECRET) {
+$secret = isset($_GET['secret']) ? $_GET['secret'] : null;
+
+if ($secret !== READONLY_SECRET) {
   assert_user_has_view_level('Registered');
 }
 
@@ -11,7 +13,7 @@ header('Content-Type: application/javascript');
 
 $type = isset($_GET['type']) ? $_GET['type'] : null;
 
-$query == null;
+$query = null;
 if ($type == 'hl') {
   $query = 'SELECT m.InternalNo, FirstName, LastName, m.Club, MAX(mi.Year) as Year FROM skywin.memberinstruct AS mi, skywin.member AS m WHERE m.InternalNo = mi.InternalNo AND InstructType = "HL" GROUP BY m.InternalNo ORDER BY LastName';
 } else if ($type == 'hm') {
